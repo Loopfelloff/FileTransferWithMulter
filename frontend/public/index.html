@@ -53,8 +53,9 @@
             body : fileData
         })
         const data = await response.json();
+        console.log(data)
         const profilePic = document.querySelector('.profile-pic')
-        profilePic.style.backgroundImage = `url(${data.fileName})`
+        profilePic.style.backgroundImage = `url(${data.file.url})`
         profilePic.style.backgroundSize = 'cover'
         profilePic.style.backgroundPosition = 'center'
     })
