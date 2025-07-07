@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Send Picture</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+  }
+  form {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="profile-pic">
+  <!-- Empty profile picture area -->
+</div>
+
+<form class="form" enctype="multipart/form-data">
+  <label for="imageUpload">Send a picture:</label>
+  <input type="file" name="avatar" id="imageUpload" accept="image/*">
+  <button type="submit">Upload</button>
+</form>
+
+<script>
+    const form = document.querySelector('.form')
+    form.addEventListener('submit' , async (e)=>{
+        e.preventDefault()
+        const fileData = new FormData(e.currentTarget)
+        const response = await fetch('http://localhost:5000/upload/profile' , {
+            method : 'POST',
+            body : fileData
+        })
+        const data = await response.json();
+        const profilePic = document.querySelector('.profile-pic')
+        profilePic.style.backgroundImage = `url(${data.fileName})`
+        profilePic.style.backgroundSize = 'cover'
+        profilePic.style.backgroundPosition = 'center'
+    })
+</script>
+
+</body>
+</html>
